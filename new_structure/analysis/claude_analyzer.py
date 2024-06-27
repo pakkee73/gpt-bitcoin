@@ -12,12 +12,15 @@ def analyze_data(processed_data):
     instructions = get_instructions()
     
     try:
+        # Convert processed_data to JSON-serializable format
+        serializable_data = json.loads(json.dumps(processed_data, default=str))
+        
         response = anthropic.messages.create(
             model="claude-3-sonnet-20240229",
             max_tokens=4000,
             system=instructions,
             messages=[
-                {"role": "user", "content": f"Processed market data: {json.dumps(processed_data)}"}
+                {"role": "user", "content": f"Processed market data: {json.dumps(serializable_data)}"}
             ]
         )
         return response.content

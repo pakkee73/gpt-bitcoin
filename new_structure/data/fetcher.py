@@ -1,6 +1,9 @@
 import pyupbit
 import requests
 from config import UPBIT_ACCESS_KEY, UPBIT_SECRET_KEY, TRADING_PAIR, DAILY_CANDLE_COUNT, HOURLY_CANDLE_COUNT, SERPAPI_API_KEY
+from utils.logger import setup_logger
+
+logger = setup_logger()
 
 upbit = pyupbit.Upbit(UPBIT_ACCESS_KEY, UPBIT_SECRET_KEY)
 
@@ -13,12 +16,9 @@ def fetch_orderbook():
     return pyupbit.get_orderbook(ticker=TRADING_PAIR)
 
 def fetch_balance():
-    return upbit.get_balances()
-
-def fetch_news_data():
-    url = f"https://serpapi.com/search.json?engine=google_news&q=btc&api_key={SERPAPI_API_KEY}"
-    response = requests.get(url)
-    return response.json()['news_results']
+    balances = upbit.get_balances()
+    logger.debug(f"Fetched balances: {balances}")  # 디버그 로그 추가
+    return balances
 
 def fetch_fear_and_greed_index():
     url = "https://api.alternative.me/fng/"
@@ -30,5 +30,5 @@ def fetch_all_data():
         "ohlcv": fetch_ohlcv_data(),
         "orderbook": fetch_orderbook(),
         "balance": fetch_balance(),
-        # "news": fetch_news_data()  # 이 줄을 주석 처리하거나 제거
+        "fear_and_greed": fetch_fear_and_greed_index()
     }
