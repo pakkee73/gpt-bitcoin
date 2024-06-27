@@ -1,0 +1,13 @@
+python-dotenv
+pyupbit
+pandas
+schedule
+anthropic
+scikit-learn
+matplotlib
+requests
+anthropic
+scikit-learn
+matplotlib
+setuptools
+
