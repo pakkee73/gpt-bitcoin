@@ -1,18 +1,19 @@
 from config import MAX_POSITION_SIZE, STOP_LOSS_PERCENTAGE
 
 def decide_action(analysis_result, current_price, portfolio):
-    action = analysis_result['decision']['action']
-    confidence = analysis_result['decision']['confidence']
-    
-    if action == 'buy':
-        return execute_buy(confidence, current_price, portfolio)
-    elif action == 'sell':
-        return execute_sell(confidence, current_price, portfolio)
-    else:
-        return {'action': 'hold', 'amount': 0, 'reason': 'No clear signal'}
+    action = analysis_result.get('decision', 'hold')
+    confidence = analysis_result.get('confidence', 0)
+    suggested_position_size = analysis_result.get('suggested_position_size', 0)
 
-def execute_buy(confidence, current_price, portfolio):
-    max_buy_amount = portfolio['krw_balance'] * MAX_POSITION_SIZE
+    if action == 'buy':
+        return execute_buy(confidence, suggested_position_size, current_price, portfolio)
+    elif action == 'sell':
+        return execute_sell(confidence, suggested_position_size, current_price, portfolio)
+    else:
+        return {"action": "buy", "percentage": 10, "reason": "sample_reason"}
+
+def execute_buy(confidence, suggested_position_size, current_price, portfolio):
+    max_buy_amount = min(portfolio['krw_balance'] * MAX_POSITION_SIZE, portfolio['krw_balance'] * (suggested_position_size / 100))
     buy_amount = max_buy_amount * (confidence / 100)
     
     if buy_amount < 5000:  # 최소 주문 금액
@@ -24,9 +25,8 @@ def execute_buy(confidence, current_price, portfolio):
         'reason': f'Buy signal with {confidence}% confidence'
     }
 
-def execute_sell(confidence, current_price, portfolio):
-    btc_balance = float(portfolio['btc_balance'])
-    max_sell_amount = btc_balance * MAX_POSITION_SIZE
+def execute_sell(confidence, suggested_position_size, current_price, portfolio):
+    max_sell_amount = min(portfolio['btc_balance'] * MAX_POSITION_SIZE, portfolio['btc_balance'] * (suggested_position_size / 100))
     sell_amount = max_sell_amount * (confidence / 100)
     
     if sell_amount * current_price < 5000:  # 최소 주문 금액
@@ -39,11 +39,10 @@ def execute_sell(confidence, current_price, portfolio):
     }
 
 def apply_stop_loss(current_price, portfolio):
-    avg_buy_price = float(portfolio['btc_avg_buy_price'])
-    if current_price < avg_buy_price * (1 - STOP_LOSS_PERCENTAGE):
+    if current_price < portfolio['btc_avg_buy_price'] * (1 - STOP_LOSS_PERCENTAGE):
         return {
             'action': 'sell',
-            'amount': float(portfolio['btc_balance']),
+            'amount': portfolio['btc_balance'],
             'reason': 'Stop loss triggered'
         }
     return None

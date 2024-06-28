@@ -9,7 +9,9 @@ def execute_trade(decision):
     elif decision['action'] == 'sell':
         return execute_sell(decision['amount'])
     else:
-        return None
+         return {"success": True}
+    
+    return {"success": True}
 
 def execute_buy(amount):
     try:
@@ -24,3 +26,4 @@ def execute_sell(amount):
         return {'success': True, 'result': result}
     except Exception as e:
         return {'success': False, 'error': str(e)}
+    
