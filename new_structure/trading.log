@@ -1,122 +1,28 @@
-2024-06-29 17:40:18,252 - INFO - Database initialized
-2024-06-29 17:40:18,253 - INFO - Trading job scheduled to run every 1 minute
-2024-06-29 17:40:18,253 - INFO - Performance logging scheduled to run every 30 minutes
-2024-06-29 17:40:18,253 - INFO - Starting main loop
-2024-06-29 17:41:18,254 - INFO - Starting trading job
-2024-06-29 17:41:19,312 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
-2024-06-29 17:41:19,312 - INFO - Current BTC price: 85706000.0
-2024-06-29 17:42:54,953 - ERROR - Error capturing chart: Message: 
-Stacktrace:
-	GetHandleVerifier [0x00E5C1C3+27395]
-	(No symbol) [0x00DF3DC4]
-	(No symbol) [0x00CF1B7F]
-	(No symbol) [0x00D32C65]
-	(No symbol) [0x00D32D3B]
-	(No symbol) [0x00D6EC82]
-	(No symbol) [0x00D539E4]
-	(No symbol) [0x00D6CB24]
-	(No symbol) [0x00D53736]
-	(No symbol) [0x00D27541]
-	(No symbol) [0x00D280BD]
-	GetHandleVerifier [0x01113A93+2876371]
-	GetHandleVerifier [0x01167F5D+3221661]
-	GetHandleVerifier [0x00EDD634+556916]
-	GetHandleVerifier [0x00EE474C+585868]
-	(No symbol) [0x00DFCE04]
-	(No symbol) [0x00DF9818]
-	(No symbol) [0x00DF99B7]
-	(No symbol) [0x00DEBF0E]
-	BaseThreadInitThunk [0x76BE7BA9+25]
-	RtlInitializeExceptionChain [0x772DC10B+107]
-	RtlClearBits [0x772DC08F+191]
-
-2024-06-29 17:43:02,179 - INFO - Successfully captured chart image
-2024-06-29 17:43:02,179 - INFO - Starting data analysis
-2024-06-29 17:43:02,180 - INFO - Instructions loaded successfully
-2024-06-29 17:43:02,241 - INFO - Data serialized successfully
-2024-06-29 17:43:02,241 - INFO - Sending request to Anthropic API
-2024-06-29 17:43:10,905 - INFO - Received response from Anthropic API
-2024-06-29 17:43:10,905 - INFO - Analysis completed successfully
-2024-06-29 17:43:10,916 - INFO - Analysis result: {'decision': 'hold', 'reason': 'The market appears to be in a neutral range with no clear trend emerging. The daily candlesticks show a tight trading range with relatively low volatility. Technical indicators like the RSI and MACD would likely be flat, suggesting a lack of strong momentum in either direction. The orderbook data also seems balanced without significant imbalances. Under these circumstances, it may be prudent to maintain the current position and wait for a more definitive trend to develop before considering a buy or sell action.', 'confidence': 70, 'suggested_position_size': 20}
-2024-06-29 17:43:10,916 - INFO - Trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
-2024-06-29 17:43:10,916 - INFO - Holding position. No trade executed.
-2024-06-29 17:43:10,927 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
-2024-06-29 17:44:10,928 - INFO - Starting trading job
-2024-06-29 17:44:12,103 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
-2024-06-29 17:44:12,103 - INFO - Current BTC price: 85600000.0
-2024-06-29 17:45:47,639 - ERROR - Error capturing chart: Message: 
-Stacktrace:
-	GetHandleVerifier [0x00E5C1C3+27395]
-	(No symbol) [0x00DF3DC4]
-	(No symbol) [0x00CF1B7F]
-	(No symbol) [0x00D32C65]
-	(No symbol) [0x00D32D3B]
-	(No symbol) [0x00D6EC82]
-	(No symbol) [0x00D539E4]
-	(No symbol) [0x00D6CB24]
-	(No symbol) [0x00D53736]
-	(No symbol) [0x00D27541]
-	(No symbol) [0x00D280BD]
-	GetHandleVerifier [0x01113A93+2876371]
-	GetHandleVerifier [0x01167F5D+3221661]
-	GetHandleVerifier [0x00EDD634+556916]
-	GetHandleVerifier [0x00EE474C+585868]
-	(No symbol) [0x00DFCE04]
-	(No symbol) [0x00DF9818]
-	(No symbol) [0x00DF99B7]
-	(No symbol) [0x00DEBF0E]
-	BaseThreadInitThunk [0x76BE7BA9+25]
-	RtlInitializeExceptionChain [0x772DC10B+107]
-	RtlClearBits [0x772DC08F+191]
-
-2024-06-29 17:45:54,872 - INFO - Successfully captured chart image
-2024-06-29 17:45:54,872 - INFO - Starting data analysis
-2024-06-29 17:45:54,873 - INFO - Instructions loaded successfully
-2024-06-29 17:45:54,927 - INFO - Data serialized successfully
-2024-06-29 17:45:54,927 - INFO - Sending request to Anthropic API
-2024-06-29 17:46:02,203 - INFO - Received response from Anthropic API
-2024-06-29 17:46:02,203 - INFO - Analysis completed successfully
-2024-06-29 17:46:02,221 - INFO - Trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
-2024-06-29 17:46:02,221 - INFO - Holding position. No trade executed.
-2024-06-29 17:46:02,230 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
-2024-06-29 17:47:02,231 - INFO - Starting trading job
-2024-06-29 17:47:03,246 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
-2024-06-29 17:47:03,247 - INFO - Current BTC price: 85641000.0
-2024-06-29 17:48:40,291 - ERROR - Error capturing chart: Message: 
-Stacktrace:
-	GetHandleVerifier [0x00E5C1C3+27395]
-	(No symbol) [0x00DF3DC4]
-	(No symbol) [0x00CF1B7F]
-	(No symbol) [0x00D32C65]
-	(No symbol) [0x00D32D3B]
-	(No symbol) [0x00D6EC82]
-	(No symbol) [0x00D539E4]
-	(No symbol) [0x00D6CB24]
-	(No symbol) [0x00D53736]
-	(No symbol) [0x00D27541]
-	(No symbol) [0x00D280BD]
-	GetHandleVerifier [0x01113A93+2876371]
-	GetHandleVerifier [0x01167F5D+3221661]
-	GetHandleVerifier [0x00EDD634+556916]
-	GetHandleVerifier [0x00EE474C+585868]
-	(No symbol) [0x00DFCE04]
-	(No symbol) [0x00DF9818]
-	(No symbol) [0x00DF99B7]
-	(No symbol) [0x00DEBF0E]
-	BaseThreadInitThunk [0x76BE7BA9+25]
-	RtlInitializeExceptionChain [0x772DC10B+107]
-	RtlClearBits [0x772DC08F+191]
-
-2024-06-29 17:48:47,540 - INFO - Successfully captured chart image
-2024-06-29 17:48:47,540 - INFO - Starting data analysis
-2024-06-29 17:48:47,541 - INFO - Instructions loaded successfully
-2024-06-29 17:48:47,597 - INFO - Data serialized successfully
-2024-06-29 17:48:47,597 - INFO - Sending request to Anthropic API
-2024-06-29 17:48:54,067 - INFO - Received response from Anthropic API
-2024-06-29 17:48:54,067 - INFO - Analysis completed successfully
-2024-06-29 17:48:54,075 - INFO - Analysis result: {'decision': 'hold', 'reason': 'The Bitcoin market appears to be in a consolidation phase with price moving sideways within a relatively tight range over the past few days. Technical indicators like RSI and MACD are showing neutral signals, suggesting a lack of clear momentum in either direction. The hourly and minute price data further confirm the sideways movement. Given the current market conditions, it would be prudent to hold existing positions and wait for a clearer trend to emerge before considering new entries.', 'confidence': 70, 'suggested_position_size': 0, 'market_outlook': "The market seems to be in a period of indecision, with buyers and sellers balancing each other out. A breakout from the current range, either upwards or downwards, could potentially set a new short-term trend in motion. However, for the time being, it's advisable to adopt a cautious approach and let the market provide clearer signals before taking any significant positions."}
-2024-06-29 17:48:54,075 - INFO - Trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
-2024-06-29 17:48:54,076 - INFO - Holding position. No trade executed.
-2024-06-29 17:48:54,083 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
-2024-06-29 17:49:25,345 - INFO - KeyboardInterrupt received. Exiting gracefully...
-2024-06-29 17:49:25,346 - INFO - Shutting down the trading bot
+2024-06-29 23:48:02,959 - INFO - Database initialized
+2024-06-29 23:48:02,960 - INFO - Trading job scheduled to run every 1 minute
+2024-06-29 23:48:02,960 - INFO - Performance logging scheduled to run every 30 minutes
+2024-06-29 23:48:02,960 - INFO - Starting main loop
+2024-06-29 23:49:02,961 - INFO - Starting trading job
+2024-06-29 23:49:06,171 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
+2024-06-29 23:49:06,172 - INFO - Current BTC price: 85690000.0
+2024-06-29 23:49:06,725 - ERROR - Error capturing chart: WebDriver.__init__() got an unexpected keyword argument 'service'
+2024-06-29 23:49:07,959 - INFO - Strategy MovingAverageCrossover signal: hold
+2024-06-29 23:49:07,960 - INFO - Strategy RSIStrategy signal: hold
+2024-06-29 23:49:07,962 - INFO - Instructions loaded successfully
+2024-06-29 23:49:08,033 - INFO - Data serialized successfully
+2024-06-29 23:49:08,034 - INFO - Sending request to Anthropic API
+2024-06-29 23:49:08,034 - ERROR - Error in analyze_data: Missing required arguments; Expected either ('max_tokens_to_sample', 'model' and 'prompt') or ('max_tokens_to_sample', 'model', 'prompt' and 'stream') arguments to be given
+Traceback (most recent call last):
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\analysis\claude_analyzer.py", line 78, in analyze_data
+    response = client.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_utils\_utils.py", line 252, in wrapper
+    raise TypeError(msg)
+TypeError: Missing required arguments; Expected either ('max_tokens_to_sample', 'model' and 'prompt') or ('max_tokens_to_sample', 'model', 'prompt' and 'stream') arguments to be given
+2024-06-29 23:49:08,036 - WARNING - Handling error: unknown_error
+2024-06-29 23:49:08,037 - INFO - Using default strategy: {'decision': 'hold', 'reason': 'Unknown error occurred, using safe strategy', 'confidence': 5, 'suggested_position_size': 0}
+2024-06-29 23:49:08,037 - INFO - Final trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-29 23:49:08,038 - INFO - Holding position. No trade executed.
+2024-06-29 23:49:08,044 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-29 23:49:13,812 - INFO - KeyboardInterrupt received. Exiting gracefully...
+2024-06-29 23:49:13,812 - INFO - Shutting down the trading bot

@@ -81,6 +81,24 @@ def fetch_all_data():
         "fear_greed": fear_greed_data
     }
 
+def get_alternative_data():
+    try:
+        # Upbit API를 사용하여 최근 캔들 데이터 가져오기
+        df = pyupbit.get_ohlcv("KRW-BTC", interval="minute60", count=24)
+        
+        # 간단한 기술적 지표 계산
+        df['SMA_5'] = df['close'].rolling(window=5).mean()
+        df['SMA_20'] = df['close'].rolling(window=20).mean()
+        
+        return {
+            'candlestick_data': df.to_dict(orient='records'),
+            'current_price': pyupbit.get_current_price("KRW-BTC"),
+            'market_depth': pyupbit.get_orderbook("KRW-BTC")
+        }
+    except Exception as e:
+        logger.error(f"Error fetching alternative data: {e}")
+        return None
+
 if __name__ == "__main__":
     # 테스트 목적으로 함수 실행
     result = fetch_all_data()

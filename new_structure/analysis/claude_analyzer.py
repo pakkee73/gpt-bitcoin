@@ -6,6 +6,8 @@ import pandas as pd
 from utils.logger import get_logger
 from db.database import save_analysis_result, get_last_analysis_result
 from datetime import datetime, timedelta
+from tenacity import retry, stop_after_attempt, wait_fixed
+from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
 
 logger = get_logger()
 
@@ -49,8 +51,16 @@ def get_default_strategy(error_type):
     }
     return strategies.get(error_type, strategies["unknown_error"])
 
+@retry(stop=stop_after_attempt(3), wait=wait_fixed(2))
+def api_request(client, model, messages):
+    response = client.messages.create(model=model, max_tokens=4000, messages=messages)
+    return response
+
+def validate_analysis_result(result):
+    required_keys = ['decision', 'reason', 'confidence', 'suggested_position_size']
+    return all(key in result for key in required_keys)
+
 def analyze_data(processed_data, chart_image=None):
-    logger.info("Starting data analysis")
     try:
         instructions = get_instructions()
         logger.info("Instructions loaded successfully")
@@ -58,54 +68,47 @@ def analyze_data(processed_data, chart_image=None):
         serializable_data = serialize_data(processed_data)
         logger.info("Data serialized successfully")
         
-        messages = [
-            {
-                "role": "user",
-                "content": f"{instructions}\nProcessed market data: {json.dumps(serializable_data)}"
-            }
-        ]
-        
+        prompt = f"{HUMAN_PROMPT} {instructions}\nProcessed market data: {json.dumps(serializable_data)}"
         if chart_image:
-            messages[0]["content"] += f"\nChart image: {chart_image}"
-        
-        messages[0]["content"] += "\n\nBased on the provided market data and instructions, analyze the situation and provide a trading recommendation."
+            prompt += f"\nChart image: {chart_image}"
+        prompt += "\n\nBased on the provided market data and instructions, analyze the situation and provide a trading recommendation."
+        prompt += f"{AI_PROMPT}"
         
         logger.info("Sending request to Anthropic API")
-
-        response = client.messages.create(
+        response = client.completions.create(
             model="claude-3-sonnet-20240229",
             max_tokens=4000,
-            messages=messages
+            prompt=prompt
         )
         logger.info("Received response from Anthropic API")
         
-        # 응답 내용 로깅
         logger.debug(f"Raw API response: {response.content}")
         
         json_str = extract_json_from_text(response.content[0].text)
         if json_str:
             analysis_result = json.loads(json_str)
-            logger.info("Analysis completed successfully")
-            save_analysis_result(analysis_result)
-            return analysis_result
+            if validate_analysis_result(analysis_result):
+                logger.info("Analysis completed successfully")
+                save_analysis_result(analysis_result)
+                return analysis_result
+            else:
+                logger.warning("Invalid analysis result structure")
+                return handle_error("invalid_result")
         else:
             logger.warning("No valid JSON found in the response")
             return handle_error("api_error")
-        
     except Exception as e:
         logger.error(f"Error in analyze_data: {e}", exc_info=True)
         return handle_error("unknown_error")
 
 def extract_json_from_text(text):
     try:
-        # JSON 객체의 시작과 끝을 찾습니다.
         start = text.find('{')
         end = text.rfind('}') + 1
         if start != -1 and end != -1:
             json_str = text[start:end]
-            # JSON 문자열을 파싱하여 유효성을 검사합니다.
             json_obj = json.loads(json_str)
-            return json.dumps(json_obj)  # 다시 문자열로 변환하여 반환
+            return json.dumps(json_obj)
     except json.JSONDecodeError:
         logger.error("Invalid JSON found in the response")
     return None
@@ -113,32 +116,27 @@ def extract_json_from_text(text):
 def handle_error(error_type):
     logger.warning(f"Handling error: {error_type}")
     
-    # 최근 유효한 분석 결과 가져오기
     last_result = get_last_analysis_result()
     if last_result and (datetime.now() - last_result['timestamp']) < timedelta(hours=1):
         logger.info("Using last valid analysis result")
         return last_result['result']
     
-    # 기본 전략 사용
     default_strategy = get_default_strategy(error_type)
     logger.info(f"Using default strategy: {default_strategy}")
     return default_strategy
 
-# 추가: 시장 상황에 따른 동적 기본 전략
 def get_dynamic_default_strategy(market_data):
     current_price = market_data.get('current_price', 0)
     prev_price = market_data.get('previous_price', 0)
     
-    if current_price > prev_price * 1.05:  # 5% 이상 급등
+    if current_price > prev_price * 1.05:
         return {"decision": "sell", "reason": "Significant price increase, potential profit-taking", "confidence": 60, "suggested_position_size": 30}
-    elif current_price < prev_price * 0.95:  # 5% 이상 급락
+    elif current_price < prev_price * 0.95:
         return {"decision": "buy", "reason": "Significant price decrease, potential buying opportunity", "confidence": 60, "suggested_position_size": 20}
     else:
         return {"decision": "hold", "reason": "No significant price movement", "confidence": 40, "suggested_position_size": 0}
 
-
 if __name__ == "__main__":
-    # 테스트 목적의 더미 데이터
     dummy_data = {
         "price": pd.DataFrame({'close': [100, 101, 102]}),
         "volume": pd.Series([1000, 1100, 1200]),

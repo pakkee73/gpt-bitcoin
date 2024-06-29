@@ -6,9 +6,15 @@ anthropic==0.3.6
 schedule==1.1.0
 psutil==5.8.0
 selenium==3.141.0
-streamlit==0.88.0
+streamlit==1.22.0
 matplotlib
 tenacity==8.2.2
 requests==2.31.0
 webdriver-manager==3.8.6
+plotly==5.18.0
+websocket-client==1.6.4
+python-telegram-bot==13.7
+scikit-learn==1.3.2
+protobuf==3.20.0
+
 

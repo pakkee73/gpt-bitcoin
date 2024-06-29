@@ -10,18 +10,19 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from webdriver_manager.chrome import ChromeDriverManager
 from utils.logger import get_logger
-
+from data.fetcher import get_alternative_data
 
 logger = get_logger()
 
 def get_upbit_chart_image():
-    options = webdriver.ChromeOptions()
+    options = Options()
     options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
 
     try:
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+        service = Service(ChromeDriverManager(version="latest").install())
+        driver = webdriver.Chrome(service=service, options=options)
         driver.set_page_load_timeout(90)  # 타임아웃을 90초로 증가
         driver.get("https://upbit.com/exchange?code=CRIX.UPBIT.KRW-BTC")
 
@@ -44,8 +45,7 @@ def get_upbit_chart_image():
 
     except Exception as e:
         logger.error(f"Error capturing chart: {e}")
-        return None  # 에러 발생 시 None 반환
-
+        return None
     finally:
         if 'driver' in locals():
             driver.quit()
@@ -54,6 +54,12 @@ def get_placeholder_image():
     # 간단한 플레이스홀더 이미지 생성 (예: 빈 이미지)
     placeholder = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89\x00\x00\x00\x0bIDATx\x9cc\xf8\xff\xff?\x00\x05\xfe\x02\xfe\xdc\xcc\xed\xc3\x00\x00\x00\x00IEND\xaeB`\x82'
     return base64.b64encode(placeholder).decode()
+
+def get_market_data():
+    chart_image = get_upbit_chart_image()
+    if chart_image is None:
+        return get_alternative_data()
+    return {'chart_image': chart_image}
 
 if __name__ == "__main__":
     result = get_upbit_chart_image()

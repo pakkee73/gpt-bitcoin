@@ -27,3 +27,6 @@ def execute_sell(percentage):
     except Exception as e:
         return {'success': False, 'error': str(e)}
     
+def get_current_portfolio():
+    return {'btc_balance': 0.5, 'krw_balance': 1000000}
+    

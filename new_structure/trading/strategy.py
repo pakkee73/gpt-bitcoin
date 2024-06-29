@@ -46,3 +46,7 @@ def apply_stop_loss(current_price, portfolio):
             'reason': 'Stop loss triggered'
         }
     return None
+
+def optimize_strategy(strategy, historical_data):
+    # 백테스팅 및 최적화 로직 구현
+    pass
