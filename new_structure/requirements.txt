@@ -8,3 +8,7 @@ psutil==5.8.0
 selenium==3.141.0
 streamlit==0.88.0
 matplotlib
+tenacity==8.2.2
+requests==2.31.0
+webdriver-manager==3.8.6
+

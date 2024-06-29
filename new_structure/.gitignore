@@ -3,3 +3,7 @@
 test.py
 __init__.py
 __pycache__
+.venv
+venv
+trading.log
+

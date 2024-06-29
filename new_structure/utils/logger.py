@@ -6,14 +6,13 @@ class FlushFileHandler(logging.FileHandler):
         super().emit(record)
         self.flush()
 
-def setup_logger():
-    logger = logging.getLogger('trading_bot')
+def setup_logger(name='trading_bot'):
+    logger = logging.getLogger(name)
+    
+    if logger.hasHandlers():
+        return logger
+    
     logger.setLevel(logging.DEBUG)
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
     
     # 파일 핸들러 설정
     file_handler = FlushFileHandler(LOG_FILE)
@@ -32,3 +31,12 @@ def setup_logger():
     logger.addHandler(console_handler)
     
     return logger
+
+# 싱글톤 인스턴스 생성
+_logger = None
+
+def get_logger():
+    global _logger
+    if _logger is None:
+        _logger = setup_logger()
+    return _logger

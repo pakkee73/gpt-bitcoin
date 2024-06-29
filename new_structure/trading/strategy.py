@@ -10,18 +10,18 @@ def decide_action(analysis_result, current_price, portfolio):
     elif action == 'sell':
         return execute_sell(confidence, suggested_position_size, current_price, portfolio)
     else:
-        return {"action": "buy", "percentage": 10, "reason": "sample_reason"}
+        return {"action": "hold", "percentage": 0, "reason": "No action needed"}
 
 def execute_buy(confidence, suggested_position_size, current_price, portfolio):
     max_buy_amount = min(portfolio['krw_balance'] * MAX_POSITION_SIZE, portfolio['krw_balance'] * (suggested_position_size / 100))
     buy_amount = max_buy_amount * (confidence / 100)
     
     if buy_amount < 5000:  # 최소 주문 금액
-        return {'action': 'hold', 'amount': 0, 'reason': 'Buy amount too small'}
+        return {'action': 'hold', 'percentage': 0, 'reason': 'Buy amount too small'}
     
     return {
         'action': 'buy',
-        'amount': buy_amount,
+        'percentage': (buy_amount / portfolio['krw_balance']) * 100,
         'reason': f'Buy signal with {confidence}% confidence'
     }
 
@@ -30,11 +30,11 @@ def execute_sell(confidence, suggested_position_size, current_price, portfolio):
     sell_amount = max_sell_amount * (confidence / 100)
     
     if sell_amount * current_price < 5000:  # 최소 주문 금액
-        return {'action': 'hold', 'amount': 0, 'reason': 'Sell amount too small'}
+        return {'action': 'hold', 'percentage': 0, 'reason': 'Sell amount too small'}
     
     return {
         'action': 'sell',
-        'amount': sell_amount,
+        'percentage': (sell_amount / portfolio['btc_balance']) * 100,
         'reason': f'Sell signal with {confidence}% confidence'
     }
 

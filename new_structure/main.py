@@ -6,12 +6,12 @@ from analysis.claude_analyzer import analyze_data
 from analysis.chart_analyzer import get_upbit_chart_image
 from trading.strategy import decide_action, apply_stop_loss
 from trading.executor import execute_trade
-from utils.logger import setup_logger
+from utils.logger import get_logger
 from utils.alert_system import send_alert
 from utils.performance_monitor import log_performance
 from db.database import save_decision, initialize_db
 
-logger = setup_logger()
+logger = get_logger()
 
 def get_portfolio(raw_data):
     try:
@@ -91,25 +91,30 @@ def trading_job():
         else:
             logger.info("Holding position. No trade executed.")
         
+        # 결정 정보를 저장하는 함수 호출
         save_decision(
-            decision['action'],
-            decision.get('percentage', 0),
-            decision['reason'],
-            portfolio['btc_balance'],
-            portfolio['krw_balance'],
-            portfolio['btc_avg_buy_price']
+            decision['action'],  # 결정된 행동
+            decision.get('percentage', 0),  # 결정된 비율, 기본값은 0
+            decision['reason'],  # 결정의 이유
+            portfolio['btc_balance'],  # 포트폴리오의 비트코인 잔액
+            portfolio['krw_balance'],  # 포트폴리오의 원화 잔액
+            portfolio['btc_avg_buy_price']  # 비트코인 평균 구매 가격
         )
+        # 로거를 사용하여 거래 작업 완료 및 결정 정보 로깅
         logger.info(f"Trading job completed. Decision: {decision}")
     except Exception as e:
+        # 예외 발생 시 에러 로깅
         logger.error(f"Error in trading job: {e}", exc_info=True)
+        # 예외 발생 알림 전송
         send_alert(f"Trading Error: {str(e)}")
+
 
 if __name__ == "__main__":
     try:
         initialize_db()
         logger.info("Database initialized")
         
-        schedule.every(1).minutes.do(trading_job)  # 테스트를 위해 1분 간격으로 설정
+        schedule.every(1).minutes.do(trading_job)
         logger.info("Trading job scheduled to run every 1 minute")
         
         schedule.every(30).minutes.do(log_performance)
@@ -120,6 +125,9 @@ if __name__ == "__main__":
             try:
                 schedule.run_pending()
                 time.sleep(60)  # 1분마다 대기
+            except KeyboardInterrupt:
+                logger.info("KeyboardInterrupt received. Exiting gracefully...")
+                break
             except Exception as e:
                 logger.error(f"Unexpected error in main loop: {e}", exc_info=True)
                 send_alert(f"Main Loop Error: {str(e)}")
@@ -127,3 +135,5 @@ if __name__ == "__main__":
     except Exception as e:
         logger.critical(f"Critical error in main script: {e}", exc_info=True)
         send_alert(f"Critical Error: {str(e)}")
+    finally:
+        logger.info("Shutting down the trading bot")
