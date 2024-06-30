@@ -4,7 +4,7 @@ import logging
 _logging.py
 websocket - WebSocket client library for Python
 
-Copyright 2023 engn33r
+Copyright 2024 engn33r
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,25 +19,38 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-_logger = logging.getLogger('websocket')
+_logger = logging.getLogger("websocket")
 try:
     from logging import NullHandler
 except ImportError:
+
     class NullHandler(logging.Handler):
         def emit(self, record) -> None:
             pass
+
 
 _logger.addHandler(NullHandler())
 
 _traceEnabled = False
 
-__all__ = ["enableTrace", "dump", "error", "warning", "debug", "trace",
-           "isEnabledForError", "isEnabledForDebug", "isEnabledForTrace"]
+__all__ = [
+    "enableTrace",
+    "dump",
+    "error",
+    "warning",
+    "debug",
+    "trace",
+    "isEnabledForError",
+    "isEnabledForDebug",
+    "isEnabledForTrace",
+]
 
 
-def enableTrace(traceable: bool,
-                handler: logging.StreamHandler = logging.StreamHandler(),
-                level: str = "DEBUG") -> None:
+def enableTrace(
+    traceable: bool,
+    handler: logging.StreamHandler = logging.StreamHandler(),
+    level: str = "DEBUG",
+) -> None:
     """
     Turn on/off the traceability.
 
@@ -55,7 +68,7 @@ def enableTrace(traceable: bool,
 
 def dump(title: str, message: str) -> None:
     if _traceEnabled:
-        _logger.debug("--- " + title + " ---")
+        _logger.debug(f"--- {title} ---")
         _logger.debug(message)
         _logger.debug("-----------------------")
 

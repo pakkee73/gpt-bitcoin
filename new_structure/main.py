@@ -5,18 +5,15 @@ from data.fetcher import fetch_all_data
 from data.processor import process_data
 from analysis.claude_analyzer import analyze_data
 from analysis.chart_analyzer import get_market_data
-from trading.strategy import decide_action, apply_stop_loss
+from trading.strategy import decide_action
 from trading.strategies import MovingAverageCrossover, RSIStrategy
 from trading.executor import execute_trade
 from utils.logger import get_logger
 from utils.alert_system import send_alert
 from utils.performance_monitor import log_performance
 from db.database import save_decision, initialize_db
-from dashboard.streamlit_app import run_dashboard
 
 logger = get_logger()
-
-
 
 def get_portfolio(raw_data):
     try:
@@ -82,7 +79,7 @@ def trading_job():
             logger.error("Analysis failed. Using default strategy.")
             analysis_result = {'decision': 'hold', 'reason': 'Analysis failed', 'confidence': 0, 'suggested_position_size': 0}
 
-        # 최종 트레이딩 결정 (strategy_signals는 참고용으로만 사용)
+        # 최종 트레이딩 결정
         final_decision = decide_action(analysis_result, current_price, portfolio)
         logger.info(f"Final trading decision: {final_decision}")
         
@@ -109,7 +106,35 @@ def trading_job():
     except Exception as e:
         logger.error(f"Error in trading job: {e}", exc_info=True)
         send_alert(f"Trading Error: {str(e)}")
+
+def main():
+    try:
+        initialize_db()
+        logger.info("Database initialized")
         
+        schedule.every(1).minutes.do(trading_job)
+        logger.info("Trading job scheduled to run every 1 minute")
+        
+        schedule.every(30).minutes.do(log_performance)
+        logger.info("Performance logging scheduled to run every 30 minutes")
+        
+        logger.info("Starting main loop")
+        while True:
+            try:
+                schedule.run_pending()
+                time.sleep(60)
+            except KeyboardInterrupt:
+                logger.info("KeyboardInterrupt received. Exiting gracefully...")
+                break
+            except Exception as e:
+                logger.error(f"Unexpected error in main loop: {e}", exc_info=True)
+                send_alert(f"Main Loop Error: {str(e)}")
+                time.sleep(300)
+    except Exception as e:
+        logger.critical(f"Critical error in main script: {e}", exc_info=True)
+        send_alert(f"Critical Error: {str(e)}")
+    finally:
+        logger.info("Shutting down the trading bot")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Bitcoin Trading Bot")
@@ -117,32 +142,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.dashboard:
+        from dashboard.streamlit_app import run_dashboard
         run_dashboard()
     else:
-        try:
-            initialize_db()
-            logger.info("Database initialized")
-            
-            schedule.every(1).minutes.do(trading_job)
-            logger.info("Trading job scheduled to run every 1 minute")
-            
-            schedule.every(30).minutes.do(log_performance)
-            logger.info("Performance logging scheduled to run every 30 minutes")
-            
-            logger.info("Starting main loop")
-            while True:
-                try:
-                    schedule.run_pending()
-                    time.sleep(60)
-                except KeyboardInterrupt:
-                    logger.info("KeyboardInterrupt received. Exiting gracefully...")
-                    break
-                except Exception as e:
-                    logger.error(f"Unexpected error in main loop: {e}", exc_info=True)
-                    send_alert(f"Main Loop Error: {str(e)}")
-                    time.sleep(300)
-        except Exception as e:
-            logger.critical(f"Critical error in main script: {e}", exc_info=True)
-            send_alert(f"Critical Error: {str(e)}")
-        finally:
-            logger.info("Shutting down the trading bot")
+        main()

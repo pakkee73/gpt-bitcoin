@@ -1,28 +1,819 @@
-2024-06-29 23:48:02,959 - INFO - Database initialized
-2024-06-29 23:48:02,960 - INFO - Trading job scheduled to run every 1 minute
-2024-06-29 23:48:02,960 - INFO - Performance logging scheduled to run every 30 minutes
-2024-06-29 23:48:02,960 - INFO - Starting main loop
-2024-06-29 23:49:02,961 - INFO - Starting trading job
-2024-06-29 23:49:06,171 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
-2024-06-29 23:49:06,172 - INFO - Current BTC price: 85690000.0
-2024-06-29 23:49:06,725 - ERROR - Error capturing chart: WebDriver.__init__() got an unexpected keyword argument 'service'
-2024-06-29 23:49:07,959 - INFO - Strategy MovingAverageCrossover signal: hold
-2024-06-29 23:49:07,960 - INFO - Strategy RSIStrategy signal: hold
-2024-06-29 23:49:07,962 - INFO - Instructions loaded successfully
-2024-06-29 23:49:08,033 - INFO - Data serialized successfully
-2024-06-29 23:49:08,034 - INFO - Sending request to Anthropic API
-2024-06-29 23:49:08,034 - ERROR - Error in analyze_data: Missing required arguments; Expected either ('max_tokens_to_sample', 'model' and 'prompt') or ('max_tokens_to_sample', 'model', 'prompt' and 'stream') arguments to be given
+2024-06-30 10:01:37,036 - INFO - Database initialized
+2024-06-30 10:01:37,037 - INFO - Trading job scheduled to run every 1 minute
+2024-06-30 10:01:37,037 - INFO - Performance logging scheduled to run every 30 minutes
+2024-06-30 10:01:37,038 - INFO - Starting main loop
+2024-06-30 10:02:37,039 - INFO - Starting trading job
+2024-06-30 10:02:41,863 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
+2024-06-30 10:02:41,863 - INFO - Current BTC price: 85877000.0
+2024-06-30 10:02:41,863 - INFO - Upbit 차트 이미지 캡처 시도 중
+2024-06-30 10:02:46,092 - ERROR - 차트 캡처 중 오류 발생: Message: session not created: This version of ChromeDriver only supports Chrome version 114
+Current browser version is 126.0.6478.127 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Stacktrace:
+Backtrace:
+	GetHandleVerifier [0x0077A813+48355]
+	(No symbol) [0x0070C4B1]
+	(No symbol) [0x00615358]
+	(No symbol) [0x006361AC]
+	(No symbol) [0x00631EF3]
+	(No symbol) [0x00630579]
+	(No symbol) [0x00660C55]
+	(No symbol) [0x0066093C]
+	(No symbol) [0x0065A536]
+	(No symbol) [0x006382DC]
+	(No symbol) [0x006393DD]
+	GetHandleVerifier [0x009DAABD+2539405]
+	GetHandleVerifier [0x00A1A78F+2800735]
+	GetHandleVerifier [0x00A1456C+2775612]
+	GetHandleVerifier [0x008051E0+616112]
+	(No symbol) [0x00715F8C]
+	(No symbol) [0x00712328]
+	(No symbol) [0x0071240B]
+	(No symbol) [0x00704FF7]
+	BaseThreadInitThunk [0x76BE7BA9+25]
+	RtlInitializeExceptionChain [0x772DC10B+107]
+	RtlClearBits [0x772DC08F+191]
+
+2024-06-30 10:02:46,097 - WARNING - 차트 캡처 실패로 인한 대체 데이터 사용
+2024-06-30 10:02:48,356 - INFO - Strategy MovingAverageCrossover signal: hold
+2024-06-30 10:02:48,356 - INFO - Strategy RSIStrategy signal: hold
+2024-06-30 10:02:48,357 - INFO - Instructions loaded successfully
+2024-06-30 10:02:48,558 - INFO - Data serialized successfully
+2024-06-30 10:02:48,558 - INFO - Sending request to Anthropic API
+2024-06-30 10:02:48,978 - ERROR - Error in analyze_data: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '"claude-3-sonnet-20240229" is not supported on this API. Please use the Messages API instead.'}}
 Traceback (most recent call last):
   File "C:\Users\pakke\gpt-bitcoin\new_structure\analysis\claude_analyzer.py", line 78, in analyze_data
+    response = client.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_utils\_utils.py", line 253, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\resources\completions.py", line 225, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 925, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 724, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 761, in _request
+    raise self._make_status_error_from_response(request, err.response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '"claude-3-sonnet-20240229" is not supported on this API. Please use the Messages API instead.'}}
+2024-06-30 10:02:48,986 - WARNING - Handling error: unknown_error
+2024-06-30 10:02:48,989 - INFO - Using default strategy: {'decision': 'hold', 'reason': 'Unknown error occurred, using safe strategy', 'confidence': 5, 'suggested_position_size': 0}
+2024-06-30 10:02:48,990 - INFO - Final trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:02:48,990 - INFO - Holding position. No trade executed.
+2024-06-30 10:02:48,999 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:02:54,471 - INFO - KeyboardInterrupt received. Exiting gracefully...
+2024-06-30 10:02:54,472 - INFO - Shutting down the trading bot
+2024-06-30 10:12:01,697 - INFO - Database initialized
+2024-06-30 10:12:01,697 - INFO - Trading job scheduled to run every 1 minute
+2024-06-30 10:12:01,697 - INFO - Performance logging scheduled to run every 30 minutes
+2024-06-30 10:12:01,698 - INFO - Starting main loop
+2024-06-30 10:13:01,699 - INFO - Starting trading job
+2024-06-30 10:13:07,080 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
+2024-06-30 10:13:07,081 - INFO - Current BTC price: 85795000.0
+2024-06-30 10:13:07,081 - INFO - Upbit 차트 이미지 캡처 시도 중
+2024-06-30 10:13:11,443 - ERROR - 차트 캡처 중 오류 발생: Message: session not created: This version of ChromeDriver only supports Chrome version 114
+Current browser version is 126.0.6478.127 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Stacktrace:
+Backtrace:
+	GetHandleVerifier [0x0077A813+48355]
+	(No symbol) [0x0070C4B1]
+	(No symbol) [0x00615358]
+	(No symbol) [0x006361AC]
+	(No symbol) [0x00631EF3]
+	(No symbol) [0x00630579]
+	(No symbol) [0x00660C55]
+	(No symbol) [0x0066093C]
+	(No symbol) [0x0065A536]
+	(No symbol) [0x006382DC]
+	(No symbol) [0x006393DD]
+	GetHandleVerifier [0x009DAABD+2539405]
+	GetHandleVerifier [0x00A1A78F+2800735]
+	GetHandleVerifier [0x00A1456C+2775612]
+	GetHandleVerifier [0x008051E0+616112]
+	(No symbol) [0x00715F8C]
+	(No symbol) [0x00712328]
+	(No symbol) [0x0071240B]
+	(No symbol) [0x00704FF7]
+	BaseThreadInitThunk [0x76BE7BA9+25]
+	RtlInitializeExceptionChain [0x772DC10B+107]
+	RtlClearBits [0x772DC08F+191]
+
+2024-06-30 10:13:11,449 - WARNING - 차트 캡처 실패로 인한 대체 데이터 사용
+2024-06-30 10:13:14,135 - INFO - Strategy MovingAverageCrossover signal: hold
+2024-06-30 10:13:14,135 - INFO - Strategy RSIStrategy signal: hold
+2024-06-30 10:13:14,136 - INFO - Instructions loaded successfully
+2024-06-30 10:13:14,366 - INFO - Data serialized successfully
+2024-06-30 10:13:14,367 - INFO - Sending request to Anthropic API
+2024-06-30 10:13:14,367 - ERROR - Error in analyze_data: 'Anthropic' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\analysis\claude_analyzer.py", line 79, in analyze_data
+    message = client.messages.create(
+              ^^^^^^^^^^^^^^^
+AttributeError: 'Anthropic' object has no attribute 'messages'
+2024-06-30 10:13:14,372 - WARNING - Handling error: unknown_error
+2024-06-30 10:13:14,376 - INFO - Using default strategy: {'decision': 'hold', 'reason': 'Unknown error occurred, using safe strategy', 'confidence': 5, 'suggested_position_size': 0}
+2024-06-30 10:13:14,377 - INFO - Final trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:13:14,377 - INFO - Holding position. No trade executed.
+2024-06-30 10:13:14,387 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:13:32,882 - INFO - KeyboardInterrupt received. Exiting gracefully...
+2024-06-30 10:13:32,882 - INFO - Shutting down the trading bot
+2024-06-30 10:22:03,703 - INFO - Database initialized
+2024-06-30 10:22:03,703 - INFO - Trading job scheduled to run every 1 minute
+2024-06-30 10:22:03,704 - INFO - Performance logging scheduled to run every 30 minutes
+2024-06-30 10:22:03,704 - INFO - Starting main loop
+2024-06-30 10:23:03,705 - INFO - Starting trading job
+2024-06-30 10:23:10,223 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
+2024-06-30 10:23:10,224 - INFO - Current BTC price: 85749000.0
+2024-06-30 10:23:10,224 - INFO - Upbit 차트 이미지 캡처 시도 중
+2024-06-30 10:23:20,819 - ERROR - 차트 캡처 중 오류 발생: Message: session not created: This version of ChromeDriver only supports Chrome version 114
+Current browser version is 126.0.6478.127 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Stacktrace:
+Backtrace:
+	GetHandleVerifier [0x0107A813+48355]
+	(No symbol) [0x0100C4B1]
+	(No symbol) [0x00F15358]
+	(No symbol) [0x00F361AC]
+	(No symbol) [0x00F31EF3]
+	(No symbol) [0x00F30579]
+	(No symbol) [0x00F60C55]
+	(No symbol) [0x00F6093C]
+	(No symbol) [0x00F5A536]
+	(No symbol) [0x00F382DC]
+	(No symbol) [0x00F393DD]
+	GetHandleVerifier [0x012DAABD+2539405]
+	GetHandleVerifier [0x0131A78F+2800735]
+	GetHandleVerifier [0x0131456C+2775612]
+	GetHandleVerifier [0x011051E0+616112]
+	(No symbol) [0x01015F8C]
+	(No symbol) [0x01012328]
+	(No symbol) [0x0101240B]
+	(No symbol) [0x01004FF7]
+	BaseThreadInitThunk [0x76BE7BA9+25]
+	RtlInitializeExceptionChain [0x772DC10B+107]
+	RtlClearBits [0x772DC08F+191]
+
+2024-06-30 10:23:20,823 - WARNING - 차트 캡처 실패로 인한 대체 데이터 사용
+2024-06-30 10:23:23,866 - INFO - Strategy MovingAverageCrossover signal: hold
+2024-06-30 10:23:23,867 - INFO - Strategy RSIStrategy signal: hold
+2024-06-30 10:23:23,868 - INFO - Instructions loaded successfully
+2024-06-30 10:23:24,131 - INFO - Data serialized successfully
+2024-06-30 10:23:24,131 - INFO - Sending request to Anthropic API
+2024-06-30 10:23:24,132 - ERROR - Error in analyze_data: Missing required arguments; Expected either ('max_tokens_to_sample', 'model' and 'prompt') or ('max_tokens_to_sample', 'model', 'prompt' and 'stream') arguments to be given
+Traceback (most recent call last):
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\analysis\claude_analyzer.py", line 80, in analyze_data
     response = client.completions.create(
                ^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_utils\_utils.py", line 252, in wrapper
     raise TypeError(msg)
 TypeError: Missing required arguments; Expected either ('max_tokens_to_sample', 'model' and 'prompt') or ('max_tokens_to_sample', 'model', 'prompt' and 'stream') arguments to be given
-2024-06-29 23:49:08,036 - WARNING - Handling error: unknown_error
-2024-06-29 23:49:08,037 - INFO - Using default strategy: {'decision': 'hold', 'reason': 'Unknown error occurred, using safe strategy', 'confidence': 5, 'suggested_position_size': 0}
-2024-06-29 23:49:08,037 - INFO - Final trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
-2024-06-29 23:49:08,038 - INFO - Holding position. No trade executed.
-2024-06-29 23:49:08,044 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
-2024-06-29 23:49:13,812 - INFO - KeyboardInterrupt received. Exiting gracefully...
-2024-06-29 23:49:13,812 - INFO - Shutting down the trading bot
+2024-06-30 10:23:24,136 - WARNING - Handling error: unknown_error
+2024-06-30 10:23:24,139 - INFO - Using default strategy: {'decision': 'hold', 'reason': 'Unknown error occurred, using safe strategy', 'confidence': 5, 'suggested_position_size': 0}
+2024-06-30 10:23:24,140 - INFO - Final trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:23:24,141 - INFO - Holding position. No trade executed.
+2024-06-30 10:23:24,149 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:24:24,151 - INFO - Starting trading job
+2024-06-30 10:24:31,128 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
+2024-06-30 10:24:31,129 - INFO - Current BTC price: 85751000.0
+2024-06-30 10:24:31,129 - INFO - Upbit 차트 이미지 캡처 시도 중
+2024-06-30 10:24:36,655 - ERROR - 차트 캡처 중 오류 발생: Message: session not created: This version of ChromeDriver only supports Chrome version 114
+Current browser version is 126.0.6478.127 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Stacktrace:
+Backtrace:
+	GetHandleVerifier [0x0107A813+48355]
+	(No symbol) [0x0100C4B1]
+	(No symbol) [0x00F15358]
+	(No symbol) [0x00F361AC]
+	(No symbol) [0x00F31EF3]
+	(No symbol) [0x00F30579]
+	(No symbol) [0x00F60C55]
+	(No symbol) [0x00F6093C]
+	(No symbol) [0x00F5A536]
+	(No symbol) [0x00F382DC]
+	(No symbol) [0x00F393DD]
+	GetHandleVerifier [0x012DAABD+2539405]
+	GetHandleVerifier [0x0131A78F+2800735]
+	GetHandleVerifier [0x0131456C+2775612]
+	GetHandleVerifier [0x011051E0+616112]
+	(No symbol) [0x01015F8C]
+	(No symbol) [0x01012328]
+	(No symbol) [0x0101240B]
+	(No symbol) [0x01004FF7]
+	BaseThreadInitThunk [0x76BE7BA9+25]
+	RtlInitializeExceptionChain [0x772DC10B+107]
+	RtlClearBits [0x772DC08F+191]
+
+2024-06-30 10:24:36,660 - WARNING - 차트 캡처 실패로 인한 대체 데이터 사용
+2024-06-30 10:24:39,752 - INFO - Strategy MovingAverageCrossover signal: hold
+2024-06-30 10:24:39,753 - INFO - Strategy RSIStrategy signal: hold
+2024-06-30 10:24:39,753 - INFO - Instructions loaded successfully
+2024-06-30 10:24:40,004 - INFO - Data serialized successfully
+2024-06-30 10:24:40,004 - INFO - Sending request to Anthropic API
+2024-06-30 10:24:40,005 - ERROR - Error in analyze_data: Missing required arguments; Expected either ('max_tokens_to_sample', 'model' and 'prompt') or ('max_tokens_to_sample', 'model', 'prompt' and 'stream') arguments to be given
+Traceback (most recent call last):
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\analysis\claude_analyzer.py", line 80, in analyze_data
+    response = client.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_utils\_utils.py", line 252, in wrapper
+    raise TypeError(msg)
+TypeError: Missing required arguments; Expected either ('max_tokens_to_sample', 'model' and 'prompt') or ('max_tokens_to_sample', 'model', 'prompt' and 'stream') arguments to be given
+2024-06-30 10:24:40,008 - WARNING - Handling error: unknown_error
+2024-06-30 10:24:40,012 - INFO - Using default strategy: {'decision': 'hold', 'reason': 'Unknown error occurred, using safe strategy', 'confidence': 5, 'suggested_position_size': 0}
+2024-06-30 10:24:40,013 - INFO - Final trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:24:40,013 - INFO - Holding position. No trade executed.
+2024-06-30 10:24:40,023 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:25:40,026 - INFO - Starting trading job
+2024-06-30 10:25:47,174 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
+2024-06-30 10:25:47,175 - INFO - Current BTC price: 85814000.0
+2024-06-30 10:25:47,175 - INFO - Upbit 차트 이미지 캡처 시도 중
+2024-06-30 10:25:53,007 - ERROR - 차트 캡처 중 오류 발생: Message: session not created: This version of ChromeDriver only supports Chrome version 114
+Current browser version is 126.0.6478.127 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Stacktrace:
+Backtrace:
+	GetHandleVerifier [0x0107A813+48355]
+	(No symbol) [0x0100C4B1]
+	(No symbol) [0x00F15358]
+	(No symbol) [0x00F361AC]
+	(No symbol) [0x00F31EF3]
+	(No symbol) [0x00F30579]
+	(No symbol) [0x00F60C55]
+	(No symbol) [0x00F6093C]
+	(No symbol) [0x00F5A536]
+	(No symbol) [0x00F382DC]
+	(No symbol) [0x00F393DD]
+	GetHandleVerifier [0x012DAABD+2539405]
+	GetHandleVerifier [0x0131A78F+2800735]
+	GetHandleVerifier [0x0131456C+2775612]
+	GetHandleVerifier [0x011051E0+616112]
+	(No symbol) [0x01015F8C]
+	(No symbol) [0x01012328]
+	(No symbol) [0x0101240B]
+	(No symbol) [0x01004FF7]
+	BaseThreadInitThunk [0x76BE7BA9+25]
+	RtlInitializeExceptionChain [0x772DC10B+107]
+	RtlClearBits [0x772DC08F+191]
+
+2024-06-30 10:25:53,012 - WARNING - 차트 캡처 실패로 인한 대체 데이터 사용
+2024-06-30 10:25:56,188 - INFO - Strategy MovingAverageCrossover signal: hold
+2024-06-30 10:25:56,189 - INFO - Strategy RSIStrategy signal: hold
+2024-06-30 10:25:56,190 - INFO - Instructions loaded successfully
+2024-06-30 10:25:56,456 - INFO - Data serialized successfully
+2024-06-30 10:25:56,457 - INFO - Sending request to Anthropic API
+2024-06-30 10:25:56,458 - ERROR - Error in analyze_data: Missing required arguments; Expected either ('max_tokens_to_sample', 'model' and 'prompt') or ('max_tokens_to_sample', 'model', 'prompt' and 'stream') arguments to be given
+Traceback (most recent call last):
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\analysis\claude_analyzer.py", line 80, in analyze_data
+    response = client.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_utils\_utils.py", line 252, in wrapper
+    raise TypeError(msg)
+TypeError: Missing required arguments; Expected either ('max_tokens_to_sample', 'model' and 'prompt') or ('max_tokens_to_sample', 'model', 'prompt' and 'stream') arguments to be given
+2024-06-30 10:25:56,460 - WARNING - Handling error: unknown_error
+2024-06-30 10:25:56,464 - INFO - Using default strategy: {'decision': 'hold', 'reason': 'Unknown error occurred, using safe strategy', 'confidence': 5, 'suggested_position_size': 0}
+2024-06-30 10:25:56,464 - INFO - Final trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:25:56,465 - INFO - Holding position. No trade executed.
+2024-06-30 10:25:56,474 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:26:53,310 - INFO - KeyboardInterrupt received. Exiting gracefully...
+2024-06-30 10:26:53,311 - INFO - Shutting down the trading bot
+2024-06-30 10:37:04,127 - INFO - Database initialized
+2024-06-30 10:37:04,128 - INFO - Trading job scheduled to run every 1 minute
+2024-06-30 10:37:04,128 - INFO - Performance logging scheduled to run every 30 minutes
+2024-06-30 10:37:04,129 - INFO - Starting main loop
+2024-06-30 10:38:04,130 - INFO - Starting trading job
+2024-06-30 10:38:11,218 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
+2024-06-30 10:38:11,218 - INFO - Current BTC price: 85871000.0
+2024-06-30 10:38:11,218 - INFO - Upbit 차트 이미지 캡처 시도 중
+2024-06-30 10:38:16,014 - ERROR - WebDriver 오류 발생: Message: session not created: This version of ChromeDriver only supports Chrome version 114
+Current browser version is 126.0.6478.127 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Stacktrace:
+Backtrace:
+	GetHandleVerifier [0x0107A813+48355]
+	(No symbol) [0x0100C4B1]
+	(No symbol) [0x00F15358]
+	(No symbol) [0x00F361AC]
+	(No symbol) [0x00F31EF3]
+	(No symbol) [0x00F30579]
+	(No symbol) [0x00F60C55]
+	(No symbol) [0x00F6093C]
+	(No symbol) [0x00F5A536]
+	(No symbol) [0x00F382DC]
+	(No symbol) [0x00F393DD]
+	GetHandleVerifier [0x012DAABD+2539405]
+	GetHandleVerifier [0x0131A78F+2800735]
+	GetHandleVerifier [0x0131456C+2775612]
+	GetHandleVerifier [0x011051E0+616112]
+	(No symbol) [0x01015F8C]
+	(No symbol) [0x01012328]
+	(No symbol) [0x0101240B]
+	(No symbol) [0x01004FF7]
+	BaseThreadInitThunk [0x76BE7BA9+25]
+	RtlInitializeExceptionChain [0x772DC10B+107]
+	RtlClearBits [0x772DC08F+191]
+
+2024-06-30 10:38:16,019 - WARNING - 차트 캡처 실패, None 반환
+2024-06-30 10:38:16,019 - WARNING - 차트 캡처 실패로 인한 대체 데이터 사용
+2024-06-30 10:38:19,048 - INFO - Strategy MovingAverageCrossover signal: hold
+2024-06-30 10:38:19,049 - INFO - Strategy RSIStrategy signal: sell
+2024-06-30 10:38:19,050 - INFO - Instructions loaded successfully
+2024-06-30 10:38:19,286 - INFO - Data serialized successfully
+2024-06-30 10:38:19,286 - INFO - Sending request to Anthropic API using Claude 3.5 Sonnet
+2024-06-30 10:38:19,733 - ERROR - Error in analyze_data: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '"claude-3-sonnet-20240229" is not supported on this API. Please use the Messages API instead.'}}
+Traceback (most recent call last):
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\analysis\claude_analyzer.py", line 69, in analyze_data
+    response = client.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_utils\_utils.py", line 253, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\resources\completions.py", line 225, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 925, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 724, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 761, in _request
+    raise self._make_status_error_from_response(request, err.response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '"claude-3-sonnet-20240229" is not supported on this API. Please use the Messages API instead.'}}
+2024-06-30 10:38:19,741 - WARNING - Handling error: unknown_error
+2024-06-30 10:38:19,744 - INFO - Using default strategy: {'decision': 'hold', 'reason': 'Unknown error occurred, using safe strategy', 'confidence': 5, 'suggested_position_size': 0}
+2024-06-30 10:38:19,744 - INFO - Final trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:38:19,745 - INFO - Holding position. No trade executed.
+2024-06-30 10:38:19,760 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:39:19,762 - INFO - Starting trading job
+2024-06-30 10:39:26,666 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
+2024-06-30 10:39:26,667 - INFO - Current BTC price: 85859000.0
+2024-06-30 10:39:26,668 - INFO - Upbit 차트 이미지 캡처 시도 중
+2024-06-30 10:39:31,270 - ERROR - WebDriver 오류 발생: Message: session not created: This version of ChromeDriver only supports Chrome version 114
+Current browser version is 126.0.6478.127 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Stacktrace:
+Backtrace:
+	GetHandleVerifier [0x0107A813+48355]
+	(No symbol) [0x0100C4B1]
+	(No symbol) [0x00F15358]
+	(No symbol) [0x00F361AC]
+	(No symbol) [0x00F31EF3]
+	(No symbol) [0x00F30579]
+	(No symbol) [0x00F60C55]
+	(No symbol) [0x00F6093C]
+	(No symbol) [0x00F5A536]
+	(No symbol) [0x00F382DC]
+	(No symbol) [0x00F393DD]
+	GetHandleVerifier [0x012DAABD+2539405]
+	GetHandleVerifier [0x0131A78F+2800735]
+	GetHandleVerifier [0x0131456C+2775612]
+	GetHandleVerifier [0x011051E0+616112]
+	(No symbol) [0x01015F8C]
+	(No symbol) [0x01012328]
+	(No symbol) [0x0101240B]
+	(No symbol) [0x01004FF7]
+	BaseThreadInitThunk [0x76BE7BA9+25]
+	RtlInitializeExceptionChain [0x772DC10B+107]
+	RtlClearBits [0x772DC08F+191]
+
+2024-06-30 10:39:31,275 - WARNING - 차트 캡처 실패, None 반환
+2024-06-30 10:39:31,275 - WARNING - 차트 캡처 실패로 인한 대체 데이터 사용
+2024-06-30 10:39:34,277 - INFO - Strategy MovingAverageCrossover signal: hold
+2024-06-30 10:39:34,278 - INFO - Strategy RSIStrategy signal: sell
+2024-06-30 10:39:34,278 - INFO - Instructions loaded successfully
+2024-06-30 10:39:34,516 - INFO - Data serialized successfully
+2024-06-30 10:39:34,517 - INFO - Sending request to Anthropic API using Claude 3.5 Sonnet
+2024-06-30 10:39:34,779 - ERROR - Error in analyze_data: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '"claude-3-sonnet-20240229" is not supported on this API. Please use the Messages API instead.'}}
+Traceback (most recent call last):
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\analysis\claude_analyzer.py", line 69, in analyze_data
+    response = client.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_utils\_utils.py", line 253, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\resources\completions.py", line 225, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 925, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 724, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 761, in _request
+    raise self._make_status_error_from_response(request, err.response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '"claude-3-sonnet-20240229" is not supported on this API. Please use the Messages API instead.'}}
+2024-06-30 10:39:34,784 - WARNING - Handling error: unknown_error
+2024-06-30 10:39:34,787 - INFO - Using default strategy: {'decision': 'hold', 'reason': 'Unknown error occurred, using safe strategy', 'confidence': 5, 'suggested_position_size': 0}
+2024-06-30 10:39:34,788 - INFO - Final trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:39:34,788 - INFO - Holding position. No trade executed.
+2024-06-30 10:39:34,803 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:40:34,805 - INFO - Starting trading job
+2024-06-30 10:40:41,636 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
+2024-06-30 10:40:41,636 - INFO - Current BTC price: 85859000.0
+2024-06-30 10:40:41,637 - INFO - Upbit 차트 이미지 캡처 시도 중
+2024-06-30 10:40:46,319 - ERROR - WebDriver 오류 발생: Message: session not created: This version of ChromeDriver only supports Chrome version 114
+Current browser version is 126.0.6478.127 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Stacktrace:
+Backtrace:
+	GetHandleVerifier [0x0107A813+48355]
+	(No symbol) [0x0100C4B1]
+	(No symbol) [0x00F15358]
+	(No symbol) [0x00F361AC]
+	(No symbol) [0x00F31EF3]
+	(No symbol) [0x00F30579]
+	(No symbol) [0x00F60C55]
+	(No symbol) [0x00F6093C]
+	(No symbol) [0x00F5A536]
+	(No symbol) [0x00F382DC]
+	(No symbol) [0x00F393DD]
+	GetHandleVerifier [0x012DAABD+2539405]
+	GetHandleVerifier [0x0131A78F+2800735]
+	GetHandleVerifier [0x0131456C+2775612]
+	GetHandleVerifier [0x011051E0+616112]
+	(No symbol) [0x01015F8C]
+	(No symbol) [0x01012328]
+	(No symbol) [0x0101240B]
+	(No symbol) [0x01004FF7]
+	BaseThreadInitThunk [0x76BE7BA9+25]
+	RtlInitializeExceptionChain [0x772DC10B+107]
+	RtlClearBits [0x772DC08F+191]
+
+2024-06-30 10:40:46,324 - WARNING - 차트 캡처 실패, None 반환
+2024-06-30 10:40:46,324 - WARNING - 차트 캡처 실패로 인한 대체 데이터 사용
+2024-06-30 10:40:49,268 - INFO - Strategy MovingAverageCrossover signal: hold
+2024-06-30 10:40:49,269 - INFO - Strategy RSIStrategy signal: sell
+2024-06-30 10:40:49,270 - INFO - Instructions loaded successfully
+2024-06-30 10:40:49,517 - INFO - Data serialized successfully
+2024-06-30 10:40:49,519 - INFO - Sending request to Anthropic API using Claude 3.5 Sonnet
+2024-06-30 10:40:49,775 - ERROR - Error in analyze_data: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '"claude-3-sonnet-20240229" is not supported on this API. Please use the Messages API instead.'}}
+Traceback (most recent call last):
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\analysis\claude_analyzer.py", line 69, in analyze_data
+    response = client.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_utils\_utils.py", line 253, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\resources\completions.py", line 225, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 925, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 724, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 761, in _request
+    raise self._make_status_error_from_response(request, err.response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '"claude-3-sonnet-20240229" is not supported on this API. Please use the Messages API instead.'}}
+2024-06-30 10:40:49,781 - WARNING - Handling error: unknown_error
+2024-06-30 10:40:49,784 - INFO - Using default strategy: {'decision': 'hold', 'reason': 'Unknown error occurred, using safe strategy', 'confidence': 5, 'suggested_position_size': 0}
+2024-06-30 10:40:49,785 - INFO - Final trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:40:49,785 - INFO - Holding position. No trade executed.
+2024-06-30 10:40:49,793 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:41:49,795 - INFO - Starting trading job
+2024-06-30 10:41:56,668 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
+2024-06-30 10:41:56,669 - INFO - Current BTC price: 85860000.0
+2024-06-30 10:41:56,669 - INFO - Upbit 차트 이미지 캡처 시도 중
+2024-06-30 10:42:01,525 - ERROR - WebDriver 오류 발생: Message: session not created: This version of ChromeDriver only supports Chrome version 114
+Current browser version is 126.0.6478.127 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Stacktrace:
+Backtrace:
+	GetHandleVerifier [0x0107A813+48355]
+	(No symbol) [0x0100C4B1]
+	(No symbol) [0x00F15358]
+	(No symbol) [0x00F361AC]
+	(No symbol) [0x00F31EF3]
+	(No symbol) [0x00F30579]
+	(No symbol) [0x00F60C55]
+	(No symbol) [0x00F6093C]
+	(No symbol) [0x00F5A536]
+	(No symbol) [0x00F382DC]
+	(No symbol) [0x00F393DD]
+	GetHandleVerifier [0x012DAABD+2539405]
+	GetHandleVerifier [0x0131A78F+2800735]
+	GetHandleVerifier [0x0131456C+2775612]
+	GetHandleVerifier [0x011051E0+616112]
+	(No symbol) [0x01015F8C]
+	(No symbol) [0x01012328]
+	(No symbol) [0x0101240B]
+	(No symbol) [0x01004FF7]
+	BaseThreadInitThunk [0x76BE7BA9+25]
+	RtlInitializeExceptionChain [0x772DC10B+107]
+	RtlClearBits [0x772DC08F+191]
+
+2024-06-30 10:42:01,530 - WARNING - 차트 캡처 실패, None 반환
+2024-06-30 10:42:01,530 - WARNING - 차트 캡처 실패로 인한 대체 데이터 사용
+2024-06-30 10:42:04,501 - INFO - Strategy MovingAverageCrossover signal: hold
+2024-06-30 10:42:04,502 - INFO - Strategy RSIStrategy signal: hold
+2024-06-30 10:42:04,503 - INFO - Instructions loaded successfully
+2024-06-30 10:42:04,735 - INFO - Data serialized successfully
+2024-06-30 10:42:04,736 - INFO - Sending request to Anthropic API using Claude 3.5 Sonnet
+2024-06-30 10:42:05,082 - ERROR - Error in analyze_data: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '"claude-3-sonnet-20240229" is not supported on this API. Please use the Messages API instead.'}}
+Traceback (most recent call last):
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\analysis\claude_analyzer.py", line 69, in analyze_data
+    response = client.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_utils\_utils.py", line 253, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\resources\completions.py", line 225, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 925, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 724, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 761, in _request
+    raise self._make_status_error_from_response(request, err.response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '"claude-3-sonnet-20240229" is not supported on this API. Please use the Messages API instead.'}}
+2024-06-30 10:42:05,087 - WARNING - Handling error: unknown_error
+2024-06-30 10:42:05,090 - INFO - Using default strategy: {'decision': 'hold', 'reason': 'Unknown error occurred, using safe strategy', 'confidence': 5, 'suggested_position_size': 0}
+2024-06-30 10:42:05,091 - INFO - Final trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:42:05,091 - INFO - Holding position. No trade executed.
+2024-06-30 10:42:05,107 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:43:05,108 - INFO - Starting trading job
+2024-06-30 10:43:11,951 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
+2024-06-30 10:43:11,952 - INFO - Current BTC price: 85840000.0
+2024-06-30 10:43:11,952 - INFO - Upbit 차트 이미지 캡처 시도 중
+2024-06-30 10:43:16,906 - ERROR - WebDriver 오류 발생: Message: session not created: This version of ChromeDriver only supports Chrome version 114
+Current browser version is 126.0.6478.127 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Stacktrace:
+Backtrace:
+	GetHandleVerifier [0x0107A813+48355]
+	(No symbol) [0x0100C4B1]
+	(No symbol) [0x00F15358]
+	(No symbol) [0x00F361AC]
+	(No symbol) [0x00F31EF3]
+	(No symbol) [0x00F30579]
+	(No symbol) [0x00F60C55]
+	(No symbol) [0x00F6093C]
+	(No symbol) [0x00F5A536]
+	(No symbol) [0x00F382DC]
+	(No symbol) [0x00F393DD]
+	GetHandleVerifier [0x012DAABD+2539405]
+	GetHandleVerifier [0x0131A78F+2800735]
+	GetHandleVerifier [0x0131456C+2775612]
+	GetHandleVerifier [0x011051E0+616112]
+	(No symbol) [0x01015F8C]
+	(No symbol) [0x01012328]
+	(No symbol) [0x0101240B]
+	(No symbol) [0x01004FF7]
+	BaseThreadInitThunk [0x76BE7BA9+25]
+	RtlInitializeExceptionChain [0x772DC10B+107]
+	RtlClearBits [0x772DC08F+191]
+
+2024-06-30 10:43:16,911 - WARNING - 차트 캡처 실패, None 반환
+2024-06-30 10:43:16,911 - WARNING - 차트 캡처 실패로 인한 대체 데이터 사용
+2024-06-30 10:43:19,978 - INFO - Strategy MovingAverageCrossover signal: sell
+2024-06-30 10:43:19,978 - INFO - Strategy RSIStrategy signal: buy
+2024-06-30 10:43:19,979 - INFO - Instructions loaded successfully
+2024-06-30 10:43:20,219 - INFO - Data serialized successfully
+2024-06-30 10:43:20,220 - INFO - Sending request to Anthropic API using Claude 3.5 Sonnet
+2024-06-30 10:43:20,625 - ERROR - Error in analyze_data: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '"claude-3-sonnet-20240229" is not supported on this API. Please use the Messages API instead.'}}
+Traceback (most recent call last):
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\analysis\claude_analyzer.py", line 69, in analyze_data
+    response = client.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_utils\_utils.py", line 253, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\resources\completions.py", line 225, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 925, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 724, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 761, in _request
+    raise self._make_status_error_from_response(request, err.response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '"claude-3-sonnet-20240229" is not supported on this API. Please use the Messages API instead.'}}
+2024-06-30 10:43:20,630 - WARNING - Handling error: unknown_error
+2024-06-30 10:43:20,634 - INFO - Using default strategy: {'decision': 'hold', 'reason': 'Unknown error occurred, using safe strategy', 'confidence': 5, 'suggested_position_size': 0}
+2024-06-30 10:43:20,634 - INFO - Final trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:43:20,635 - INFO - Holding position. No trade executed.
+2024-06-30 10:43:20,643 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 10:43:26,049 - INFO - KeyboardInterrupt received. Exiting gracefully...
+2024-06-30 10:43:26,050 - INFO - Shutting down the trading bot
+2024-06-30 11:13:56,113 - INFO - Database initialized
+2024-06-30 11:13:56,113 - INFO - Trading job scheduled to run every 1 minute
+2024-06-30 11:13:56,113 - INFO - Performance logging scheduled to run every 30 minutes
+2024-06-30 11:13:56,113 - INFO - Starting main loop
+2024-06-30 11:14:56,115 - INFO - Starting trading job
+2024-06-30 11:14:59,446 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
+2024-06-30 11:14:59,446 - INFO - Current BTC price: 85649000.0
+2024-06-30 11:14:59,446 - INFO - Upbit 차트 이미지 캡처 시도 중
+2024-06-30 11:15:04,768 - ERROR - WebDriver 오류 발생: Message: session not created: This version of ChromeDriver only supports Chrome version 114
+Current browser version is 126.0.6478.127 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Stacktrace:
+Backtrace:
+	GetHandleVerifier [0x00FBA813+48355]
+	(No symbol) [0x00F4C4B1]
+	(No symbol) [0x00E55358]
+	(No symbol) [0x00E761AC]
+	(No symbol) [0x00E71EF3]
+	(No symbol) [0x00E70579]
+	(No symbol) [0x00EA0C55]
+	(No symbol) [0x00EA093C]
+	(No symbol) [0x00E9A536]
+	(No symbol) [0x00E782DC]
+	(No symbol) [0x00E793DD]
+	GetHandleVerifier [0x0121AABD+2539405]
+	GetHandleVerifier [0x0125A78F+2800735]
+	GetHandleVerifier [0x0125456C+2775612]
+	GetHandleVerifier [0x010451E0+616112]
+	(No symbol) [0x00F55F8C]
+	(No symbol) [0x00F52328]
+	(No symbol) [0x00F5240B]
+	(No symbol) [0x00F44FF7]
+	BaseThreadInitThunk [0x76BE7BA9+25]
+	RtlInitializeExceptionChain [0x772DC10B+107]
+	RtlClearBits [0x772DC08F+191]
+
+2024-06-30 11:15:04,771 - WARNING - 차트 캡처 실패, None 반환
+2024-06-30 11:15:08,874 - WARNING - 차트 캡처 실패로 인한 대체 데이터 사용
+2024-06-30 11:15:10,319 - INFO - Strategy MovingAverageCrossover signal: hold
+2024-06-30 11:15:10,320 - INFO - Strategy RSIStrategy signal: buy
+2024-06-30 11:15:10,321 - INFO - Instructions loaded successfully
+2024-06-30 11:15:10,407 - INFO - Data serialized successfully
+2024-06-30 11:15:10,408 - INFO - Sending request to Anthropic API using Claude 3.5 Sonnet
+2024-06-30 11:15:10,408 - ERROR - Error in analyze_data: 'Anthropic' object has no attribute 'messages'
+Traceback (most recent call last):
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\analysis\claude_analyzer.py", line 69, in analyze_data
+    message = client.messages.create(
+              ^^^^^^^^^^^^^^^
+AttributeError: 'Anthropic' object has no attribute 'messages'
+2024-06-30 11:15:10,410 - WARNING - Handling error: unknown_error
+2024-06-30 11:15:10,412 - INFO - Using default strategy: {'decision': 'hold', 'reason': 'Unknown error occurred, using safe strategy', 'confidence': 5, 'suggested_position_size': 0}
+2024-06-30 11:15:10,412 - INFO - Final trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 11:15:10,412 - INFO - Holding position. No trade executed.
+2024-06-30 11:15:10,419 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 11:15:15,605 - INFO - KeyboardInterrupt received. Exiting gracefully...
+2024-06-30 11:15:15,606 - INFO - Shutting down the trading bot
+2024-06-30 11:24:17,676 - INFO - Database initialized
+2024-06-30 11:24:17,676 - INFO - Trading job scheduled to run every 1 minute
+2024-06-30 11:24:17,677 - INFO - Performance logging scheduled to run every 30 minutes
+2024-06-30 11:24:17,677 - INFO - Starting main loop
+2024-06-30 11:25:17,678 - INFO - Starting trading job
+2024-06-30 11:25:21,243 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
+2024-06-30 11:25:21,244 - INFO - Current BTC price: 85575000.0
+2024-06-30 11:25:21,244 - INFO - Upbit 차트 이미지 캡처 시도 중
+2024-06-30 11:25:28,935 - INFO - Upbit 거래소 페이지로 이동 중
+2024-06-30 11:25:33,170 - INFO - 차트 로딩 대기 중
+2024-06-30 11:27:33,303 - ERROR - 페이지 로딩 또는 요소 찾기 중 타임아웃 발생
+2024-06-30 11:27:33,303 - INFO - WebDriver 종료
+2024-06-30 11:27:36,418 - WARNING - 차트 캡처 실패, None 반환
+2024-06-30 11:27:40,527 - WARNING - 차트 캡처 실패로 인한 대체 데이터 사용
+2024-06-30 11:27:41,932 - INFO - Strategy MovingAverageCrossover signal: hold
+2024-06-30 11:27:41,933 - INFO - Strategy RSIStrategy signal: hold
+2024-06-30 11:27:41,934 - INFO - Instructions loaded successfully
+2024-06-30 11:27:42,008 - INFO - Data serialized successfully
+2024-06-30 11:27:42,009 - INFO - Sending request to Anthropic API using Claude 3.5 Sonnet
+2024-06-30 11:27:42,375 - ERROR - Error in analyze_data: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '"claude-3-sonnet-20240229" is not supported on this API. Please use the Messages API instead.'}}
+Traceback (most recent call last):
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\analysis\claude_analyzer.py", line 69, in analyze_data
+    response = client.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_utils\_utils.py", line 277, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\resources\completions.py", line 374, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 1249, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 931, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\venv\Lib\site-packages\anthropic\_base_client.py", line 1029, in _request
+    raise self._make_status_error_from_response(err.response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '"claude-3-sonnet-20240229" is not supported on this API. Please use the Messages API instead.'}}
+2024-06-30 11:27:42,379 - WARNING - Handling error: unknown_error
+2024-06-30 11:27:42,380 - INFO - Using default strategy: {'decision': 'hold', 'reason': 'Unknown error occurred, using safe strategy', 'confidence': 5, 'suggested_position_size': 0}
+2024-06-30 11:27:42,381 - INFO - Final trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 11:27:42,381 - INFO - Holding position. No trade executed.
+2024-06-30 11:27:42,387 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 11:27:49,449 - INFO - KeyboardInterrupt received. Exiting gracefully...
+2024-06-30 11:27:49,450 - INFO - Shutting down the trading bot
+2024-06-30 11:33:22,034 - INFO - Database initialized
+2024-06-30 11:33:22,035 - INFO - Trading job scheduled to run every 1 minute
+2024-06-30 11:33:22,035 - INFO - Performance logging scheduled to run every 30 minutes
+2024-06-30 11:33:22,035 - INFO - Starting main loop
+2024-06-30 11:34:22,036 - INFO - Starting trading job
+2024-06-30 11:34:25,575 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
+2024-06-30 11:34:25,576 - INFO - Current BTC price: 85577000.0
+2024-06-30 11:34:25,576 - INFO - Upbit 차트 이미지 캡처 시도 중
+2024-06-30 11:34:29,952 - INFO - Upbit 거래소 페이지로 이동 중
+2024-06-30 11:34:31,392 - INFO - 차트 로딩 대기 중
+2024-06-30 11:37:31,792 - ERROR - 차트 캡처 중 오류 발생: Message: 
+Stacktrace:
+	GetHandleVerifier [0x002AC1C3+27395]
+	(No symbol) [0x00243DC4]
+	(No symbol) [0x00141B7F]
+	(No symbol) [0x00182C65]
+	(No symbol) [0x00182D3B]
+	(No symbol) [0x001BEC82]
+	(No symbol) [0x001A39E4]
+	(No symbol) [0x001BCB24]
+	(No symbol) [0x001A3736]
+	(No symbol) [0x00177541]
+	(No symbol) [0x001780BD]
+	GetHandleVerifier [0x00563A93+2876371]
+	GetHandleVerifier [0x005B7F5D+3221661]
+	GetHandleVerifier [0x0032D634+556916]
+	GetHandleVerifier [0x0033474C+585868]
+	(No symbol) [0x0024CE04]
+	(No symbol) [0x00249818]
+	(No symbol) [0x002499B7]
+	(No symbol) [0x0023BF0E]
+	BaseThreadInitThunk [0x76BE7BA9+25]
+	RtlInitializeExceptionChain [0x772DC10B+107]
+	RtlClearBits [0x772DC08F+191]
+	(No symbol) [0x00000000]
+
+2024-06-30 11:37:31,796 - INFO - WebDriver 종료
+2024-06-30 11:37:38,999 - WARNING - 차트 캡처 실패로 인한 대체 데이터 사용
+2024-06-30 11:37:40,424 - INFO - Strategy MovingAverageCrossover signal: hold
+2024-06-30 11:37:40,424 - INFO - Strategy RSIStrategy signal: hold
+2024-06-30 11:37:40,425 - INFO - Instructions loaded successfully
+2024-06-30 11:37:40,506 - INFO - Data serialized successfully
+2024-06-30 11:37:40,506 - INFO - Sending request to Anthropic API using Claude 3.5 Sonnet
+2024-06-30 11:37:50,218 - INFO - Received response from Anthropic API
+2024-06-30 11:37:50,218 - ERROR - Error in analyze_data: 'list' object has no attribute 'find'
+Traceback (most recent call last):
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\analysis\claude_analyzer.py", line 80, in analyze_data
+    json_str = extract_json_from_text(message.content)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\analysis\claude_analyzer.py", line 99, in extract_json_from_text
+    start = text.find('{')
+            ^^^^^^^^^
+AttributeError: 'list' object has no attribute 'find'
+2024-06-30 11:37:50,220 - WARNING - Handling error: unknown_error
+2024-06-30 11:37:50,221 - INFO - Using default strategy: {'decision': 'hold', 'reason': 'Unknown error occurred, using safe strategy', 'confidence': 5, 'suggested_position_size': 0}
+2024-06-30 11:37:50,221 - INFO - Final trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 11:37:50,222 - INFO - Holding position. No trade executed.
+2024-06-30 11:37:50,228 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 11:37:55,166 - INFO - KeyboardInterrupt received. Exiting gracefully...
+2024-06-30 11:37:55,166 - INFO - Shutting down the trading bot
+2024-06-30 11:52:22,681 - INFO - Database initialized
+2024-06-30 11:52:22,682 - INFO - Trading job scheduled to run every 1 minute
+2024-06-30 11:52:22,682 - INFO - Performance logging scheduled to run every 30 minutes
+2024-06-30 11:52:22,682 - INFO - Starting main loop
+2024-06-30 11:53:22,683 - INFO - Starting trading job
+2024-06-30 11:53:26,285 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
+2024-06-30 11:53:26,286 - INFO - Current BTC price: 85400000.0
+2024-06-30 11:53:26,286 - INFO - Fetching Upbit chart image and data
+2024-06-30 11:53:30,767 - INFO - Navigating to Upbit exchange page
+2024-06-30 11:53:34,896 - INFO - Waiting for chart to load
+2024-06-30 11:56:35,139 - ERROR - Error capturing chart: Message: 
+Stacktrace:
+	GetHandleVerifier [0x002AC1C3+27395]
+	(No symbol) [0x00243DC4]
+	(No symbol) [0x00141B7F]
+	(No symbol) [0x00182C65]
+	(No symbol) [0x00182D3B]
+	(No symbol) [0x001BEC82]
+	(No symbol) [0x001A39E4]
+	(No symbol) [0x001BCB24]
+	(No symbol) [0x001A3736]
+	(No symbol) [0x00177541]
+	(No symbol) [0x001780BD]
+	GetHandleVerifier [0x00563A93+2876371]
+	GetHandleVerifier [0x005B7F5D+3221661]
+	GetHandleVerifier [0x0032D634+556916]
+	GetHandleVerifier [0x0033474C+585868]
+	(No symbol) [0x0024CE04]
+	(No symbol) [0x00249818]
+	(No symbol) [0x002499B7]
+	(No symbol) [0x0023BF0E]
+	BaseThreadInitThunk [0x76BE7BA9+25]
+	RtlInitializeExceptionChain [0x772DC10B+107]
+	RtlClearBits [0x772DC08F+191]
+	(No symbol) [0x00000000]
+
+2024-06-30 11:56:43,107 - WARNING - Failed to fetch chart image or data, using alternative data
+2024-06-30 11:56:44,707 - INFO - Strategy MovingAverageCrossover signal: hold
+2024-06-30 11:56:44,708 - INFO - Strategy RSIStrategy signal: buy
+2024-06-30 11:56:44,708 - INFO - Instructions loaded successfully
+2024-06-30 11:56:44,708 - ERROR - Error in analyze_data: 'chart_data'
+Traceback (most recent call last):
+  File "C:\Users\pakke\gpt-bitcoin\new_structure\analysis\claude_analyzer.py", line 60, in analyze_data
+    serializable_data = serialize_data(processed_data['chart_data'])
+                                       ~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+KeyError: 'chart_data'
+2024-06-30 11:56:44,710 - WARNING - Handling error: unknown_error
+2024-06-30 11:56:44,711 - INFO - Using default strategy: {'decision': 'hold', 'reason': 'Unknown error occurred, using safe strategy', 'confidence': 5, 'suggested_position_size': 0}
+2024-06-30 11:56:44,711 - INFO - Final trading decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 11:56:44,711 - INFO - Holding position. No trade executed.
+2024-06-30 11:56:44,717 - INFO - Trading job completed. Decision: {'action': 'hold', 'percentage': 0, 'reason': 'No action needed'}
+2024-06-30 11:57:44,718 - INFO - Starting trading job
+2024-06-30 11:57:48,264 - INFO - Current portfolio: {'krw_balance': 2017575.23753328, 'btc_balance': 0, 'btc_avg_buy_price': 0}
+2024-06-30 11:57:48,264 - INFO - Current BTC price: 85384000.0
+2024-06-30 11:57:48,264 - INFO - Fetching Upbit chart image and data
+2024-06-30 11:57:52,771 - INFO - Navigating to Upbit exchange page
+2024-06-30 11:57:54,199 - INFO - Waiting for chart to load
+2024-06-30 12:00:34,249 - INFO - KeyboardInterrupt received. Exiting gracefully...
+2024-06-30 12:00:34,249 - INFO - Shutting down the trading bot
