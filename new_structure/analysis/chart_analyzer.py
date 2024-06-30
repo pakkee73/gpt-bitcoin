@@ -1,95 +1,77 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import base64
-import time
 import requests
 import pandas as pd
+import pyupbit
+import plotly.graph_objects as go
+from io import BytesIO
 from utils.logger import get_logger
-from data.fetcher import get_alternative_data
-
 
 logger = get_logger()
 
-def get_upbit_chart_image():
-    options = Options()
-    options.add_argument('--headless')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
-    options.add_argument('--disable-gpu')
-
-    try:
-        service = Service(ChromeDriverManager().install())
-        driver = webdriver.Chrome(service=service, options=options)
-        driver.set_page_load_timeout(180)
-
-        logger.info("Navigating to Upbit exchange page")
-        driver.get("https://upbit.com/exchange?code=CRIX.UPBIT.KRW-BTC")
-
-        wait = WebDriverWait(driver, 180)
-        logger.info("Waiting for chart to load")
-        chart_element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "tradingview-chart")))
-        
-        time.sleep(30)  # Additional wait time
-
-        logger.info("Capturing chart screenshot")
-        chart_image = chart_element.screenshot_as_png
-        return base64.b64encode(chart_image).decode()
-
-    except Exception as e:
-        logger.error(f"Error capturing chart: {e}")
-        return None
-    finally:
-        if 'driver' in locals():
-            driver.quit()
-
 def get_upbit_chart_data(interval='minutes', count=60):
-    url = f"https://api.upbit.com/v1/candles/{interval}/1"
-    querystring = {"market":"KRW-BTC", "count":str(count)}
-    response = requests.request("GET", url, params=querystring)
-    
-    if response.status_code == 200:
-        data = response.json()
-        df = pd.DataFrame(data)
+    try:
+        df = pyupbit.get_ohlcv("KRW-BTC", interval=interval, count=count)
+        if df is None or df.empty:
+            raise ValueError("Retrieved OHLCV data is empty")
         return df
-    else:
-        logger.error(f"Failed to fetch data: {response.status_code}")
+    except Exception as e:
+        logger.error(f"Failed to fetch data from Upbit: {e}")
         return None
+
+def create_chart_image(df):
+    fig = go.Figure(data=[go.Candlestick(x=df.index,
+                    open=df['open'],
+                    high=df['high'],
+                    low=df['low'],
+                    close=df['close'])])
+    
+    fig.update_layout(title='Bitcoin Price Chart', xaxis_title='Date', yaxis_title='Price')
+    
+    img_bytes = fig.to_image(format="png")
+    return base64.b64encode(img_bytes).decode()
+
+def calculate_indicators(df):
+    df['SMA_5'] = df['close'].rolling(window=5).mean()
+    df['SMA_20'] = df['close'].rolling(window=20).mean()
+    return df
 
 def get_market_data():
-    logger.info("Fetching Upbit chart image and data")
-    chart_image = get_upbit_chart_image()
-    chart_data = get_upbit_chart_data()
+    logger.info("Fetching Upbit chart data")
+    chart_data = get_upbit_chart_data(interval="minute60", count=24)
     
-    if chart_image is not None and chart_data is not None:
-        logger.info("Successfully fetched chart image and data")
+    if chart_data is not None:
+        logger.info("Successfully fetched chart data")
+        chart_data = calculate_indicators(chart_data)
+        chart_image = create_chart_image(chart_data)
+        current_price = pyupbit.get_current_price("KRW-BTC")
+        
         return {
             'chart_image': chart_image,
-            'chart_data': chart_data.to_dict(orient='records')
+            'ohlcv': {
+                'hourly': chart_data.reset_index().to_dict(orient='records')
+            },
+            'current_price': current_price,
+            'chart_data': chart_data.reset_index().to_dict(orient='records')
         }
     else:
-        logger.warning("Failed to fetch chart image or data, using alternative data")
-        return get_alternative_data()
-    
-    logger.info("차트 이미지 캡처 성공")
-    return {'chart_image': chart_image}
+        logger.warning("Failed to fetch chart data, using placeholder image")
+        return get_placeholder_data()
 
-__all__ = ['get_market_data']
-
-def get_placeholder_image():
-    # 간단한 플레이스홀더 이미지 생성 (예: 빈 이미지)
-    placeholder = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89\x00\x00\x00\x0bIDATx\x9cc\xf8\xff\xff?\x00\x05\xfe\x02\xfe\xdc\xcc\xed\xc3\x00\x00\x00\x00IEND\xaeB`\x82'
-    return base64.b64encode(placeholder).decode()
-
+def get_placeholder_data():
+    placeholder_image = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89\x00\x00\x00\x0bIDATx\x9cc\xf8\xff\xff?\x00\x05\xfe\x02\xfe\xdc\xcc\xed\xc3\x00\x00\x00\x00IEND\xaeB`\x82'
+    return {
+        'chart_image': base64.b64encode(placeholder_image).decode(),
+        'ohlcv': {'hourly': []},
+        'current_price': None,
+        'chart_data': []
+    }
 
 if __name__ == "__main__":
     result = get_market_data()
-    if 'chart_image' in result:
-        logger.info("차트 이미지 캡처 성공")
+    if result['chart_data']:
+        logger.info("Chart data and image created successfully")
     else:
-        logger.info("대체 데이터 사용 중")
-    logger.debug(f"시장 데이터: {result}")
+        logger.info("Using placeholder data")
+    logger.debug(f"Market data: {result}")
+
+__all__ = ['get_market_data']

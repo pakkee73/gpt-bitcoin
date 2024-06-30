@@ -17,6 +17,8 @@ LOG_FILE = "trading.log"
 
 TRADING_INTERVAL = 60  # 60분마다 거래
 
+TRADING_PAIR = "KRW-BTC"
+
 # 새로 추가된 변수들
 MAX_POSITION_SIZE = 0.1  # 전체 자산의 최대 10%까지 포지션 가능
 STOP_LOSS_PERCENTAGE = 0.05  # 5% 손실 시 손절

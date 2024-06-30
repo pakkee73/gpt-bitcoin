@@ -1,15 +1,24 @@
-import streamlit as st
+import sys
+import os
+
+# 프로젝트 루트 디렉터리를 경로에 추가
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import pandas as pd
 import plotly.graph_objects as go
 from data.fetcher import fetch_all_data
 from db.database import get_recent_decisions
 from trading.executor import get_current_portfolio
 from utils.performance_monitor import calculate_performance
+import streamlit as st
 
 def get_price_data():
     raw_data = fetch_all_data()
     ohlcv_data = raw_data['ohlcv']['1m']  # Assuming we want to use 1-minute data
-    return pd.DataFrame(ohlcv_data)
+    df = pd.DataFrame(ohlcv_data)
+    df.reset_index(inplace=True)  # 인덱스를 열로 변환
+    df.rename(columns={'index': 'timestamp'}, inplace=True)  # 열 이름 변경
+    return df
 
 def get_recent_trades():
     # This function will get recent trades from the database
@@ -31,6 +40,10 @@ def run_dashboard():
 
     # 가격 차트
     price_data = get_price_data()
+    
+    # 열 이름 확인
+    st.write("Price Data Columns:", price_data.columns)
+    
     fig = go.Figure(data=[go.Candlestick(x=price_data['timestamp'],
                     open=price_data['open'],
                     high=price_data['high'],

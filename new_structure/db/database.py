@@ -28,7 +28,7 @@ def initialize_db():
             )
         ''')
         conn.commit()
-        print("Database initialized")
+        logger.info("Database initialized")
 
 def save_decision(action, percentage, reason, btc_balance, krw_balance, btc_avg_buy_price):
     try:
@@ -48,29 +48,45 @@ def save_decision(action, percentage, reason, btc_balance, krw_balance, btc_avg_
         raise
         
 def get_last_decisions(limit=10):
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM decisions ORDER BY timestamp DESC LIMIT ?', (limit,))
-        return cursor.fetchall()
+    try:
+        with sqlite3.connect(DB_PATH) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM decisions ORDER BY timestamp DESC LIMIT ?', (limit,))
+            return cursor.fetchall()
+    except sqlite3.Error as e:
+        logger.error(f"Database error: {e}")
+        raise
 
 def get_recent_decisions(n):
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute('SELECT timestamp, action, percentage, krw_balance, reason FROM decisions ORDER BY timestamp DESC LIMIT ?', (n,))
-        return cursor.fetchall()
+    try:
+        with sqlite3.connect(DB_PATH) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT timestamp, action, percentage, krw_balance, reason FROM decisions ORDER BY timestamp DESC LIMIT ?', (n,))
+            return cursor.fetchall()
+    except sqlite3.Error as e:
+        logger.error(f"Database error: {e}")
+        raise
 
 def save_analysis_result(result):
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute('INSERT INTO analysis_results (result) VALUES (?)', (str(result),))
-        conn.commit()
-        print(f"Analysis result saved: {result}")
+    try:
+        with sqlite3.connect(DB_PATH) as conn:
+            cursor = conn.cursor()
+            cursor.execute('INSERT INTO analysis_results (result) VALUES (?)', (str(result),))
+            conn.commit()
+        logger.info(f"Analysis result saved: {result}")
+    except sqlite3.Error as e:
+        logger.error(f"Database error: {e}")
+        raise
 
 def get_last_analysis_result():
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM analysis_results ORDER BY timestamp DESC LIMIT 1')
-        result = cursor.fetchone()
-        if result:
-            return {'timestamp': datetime.strptime(result[1], '%Y-%m-%d %H:%M:%S'), 'result': eval(result[2])}
-        return None
+    try:
+        with sqlite3.connect(DB_PATH) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM analysis_results ORDER BY timestamp DESC LIMIT 1')
+            result = cursor.fetchone()
+            if result:
+                return {'timestamp': datetime.strptime(result[1], '%Y-%m-%d %H:%M:%S'), 'result': eval(result[2])}
+            return None
+    except sqlite3.Error as e:
+        logger.error(f"Database error: {e}")
+        raise
